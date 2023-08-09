@@ -7,7 +7,8 @@ This is an extension on the Unity and C# events system that implements a set of 
 - All listeners have to subscribe to the channel (```Subscribe(<<HandlerMethod>>)``` or ```TrySubscribe(<<HandlerMethod>>)```).
     It is recomended to subscribe to the channel in ```OnEnable``` and unsubscribe in ```OnDisable```.
 The observed object/s can raise the event (```RaiseEvent(<<value>>)``` or ```TryRaiseEvent(<<value>>)```).
-
+### Flow Chart
+![Event Channel flow chart](https://github.com/jvarelaaloisio/EventChannelsSystem-UnityPackage/assets/33493616/abf5c869-7aba-4e32-95cc-7af14c6f731b)
 ### Questions and Feedback
 
 For general questions, feedback or job opportunities, you can [send me an email](juampyvarela@gmail.com).
