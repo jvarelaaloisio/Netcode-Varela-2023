@@ -1,0 +1,3 @@
+[submodule "Assets/Scripts/EventChannels"]
+	path = Assets/Scripts/EventChannels
+	url = git@github.com:jvarelaaloisio/EventChannelsSystem-UnityPackage.git
