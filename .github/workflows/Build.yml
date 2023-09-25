@@ -17,8 +17,8 @@ jobs:
       - name: Read/Create Library cache
         uses: actions/cache@v3
         with:
-          path: ./Little-Final/Library
-          key: Library-${{ hashFiles('./Little-Final/Assets/**', './Little-Final/Packages/**', './Little-Final/ProjectSettings/**') }}
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
           restore-keys: |
             Library-
 
@@ -40,7 +40,6 @@ jobs:
         with:
           #targetPlatform: WebGL
           targetPlatform: StandaloneWindows
-          projectPath: ./Little-Final
 
       # Upload Artifact
       - name: Create Artifact
@@ -50,13 +49,13 @@ jobs:
           path: build
 
       #Zip output
-      - name: Zip build files
-        id: archive
-        run: |
-          sudo apt-get update
-          sudo apt-get install zip
-          echo "DATE=$(date +'%y%m%d')" >> $GITHUB_ENV
-          zip -r build_${{ env.DATE }}.zip ./build
+      # - name: Zip build files
+      #   id: archive
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install zip
+      #     echo "DATE=$(date +'%y%m%d')" >> $GITHUB_ENV
+      #     zip -r build_${{ env.DATE }}.zip ./build
     
       #Upload to Google Drive
       # - name: Upload to Google Drive
