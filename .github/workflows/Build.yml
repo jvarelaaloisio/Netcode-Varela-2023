@@ -41,7 +41,7 @@ jobs:
           #targetPlatform: WebGL
           targetPlatform: StandaloneWindows
 
-      #Zip output
+      #Build name
       - name: Set build name
         id: buildName
         run: |
