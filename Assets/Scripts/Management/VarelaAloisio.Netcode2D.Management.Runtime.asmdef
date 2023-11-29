@@ -1,0 +1,20 @@
+{
+    "name": "VarelaAloisio.Netcode2D.Management.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:1fdc02839c662824c8f8cf873e2f6bc1",
+        "GUID:ce4ae6fe238879f448b9987d3c1b8c52",
+        "GUID:1491147abca9d7d4bb7105af628b223e",
+        "GUID:112fe480b08dc86429f4fb37205a0596",
+        "GUID:8f906b125f01afa478beb61975b2ac12"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

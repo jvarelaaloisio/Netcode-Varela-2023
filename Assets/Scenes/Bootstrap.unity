@@ -123,6 +123,111 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &75069237
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 75069238}
+  - component: {fileID: 75069239}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: b560906015ea7b741bee72056b8151b2, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &75069238
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75069237}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &75069239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75069237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66b04b9809d42ce438b17c5b28225585, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkManager: {fileID: 6472732541135710887}
+  mainMenu:
+    name: Menu
+    loadMode: 1
+  level:
+    name: Level
+    loadMode: 1
+  hostChannel: {fileID: 11400000, guid: 1b228f79a1192844d8b162b48779d9c0, type: 2}
+  joinChannel: {fileID: 11400000, guid: 44901deee41627549860237c9dd07ec3, type: 2}
+  disconnectChannel: {fileID: 11400000, guid: 1e704c85bc318a54ea24e4a1f61f765a, type: 2}
+  onHost:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: d16797dadec11c64ba3a0936d2829628, type: 2}
+        m_TargetAssemblyTypeName: Events.Runtime.Channels.ChannelSo`1[[EventChannels.Runtime.Additions.Ids.Id,
+          VarelaAloisio.Jumpers.Events.Runtime
+        m_MethodName: RaiseEvent
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 7201dbde66f3c994184eb600056b771d, type: 2}
+          m_ObjectArgumentAssemblyTypeName: EventChannels.Runtime.Additions.Ids.Id,
+            VarelaAloisio.Jumpers.Events.Runtime
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onJoin:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: d16797dadec11c64ba3a0936d2829628, type: 2}
+        m_TargetAssemblyTypeName: Events.Runtime.Channels.ChannelSo`1[[EventChannels.Runtime.Additions.Ids.Id,
+          VarelaAloisio.Jumpers.Events.Runtime
+        m_MethodName: RaiseEvent
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 7201dbde66f3c994184eb600056b771d, type: 2}
+          m_ObjectArgumentAssemblyTypeName: EventChannels.Runtime.Additions.Ids.Id,
+            VarelaAloisio.Jumpers.Events.Runtime
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onDisconnect:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: d16797dadec11c64ba3a0936d2829628, type: 2}
+        m_TargetAssemblyTypeName: Events.Runtime.Channels.ChannelSo`1[[EventChannels.Runtime.Additions.Ids.Id,
+          VarelaAloisio.Jumpers.Events.Runtime
+        m_MethodName: RaiseEvent
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 5f314ec4148ffe54c8d0afa0427ef175, type: 2}
+          m_ObjectArgumentAssemblyTypeName: EventChannels.Runtime.Additions.Ids.Id,
+            VarelaAloisio.Jumpers.Events.Runtime
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +334,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 1
+  orthographic size: 2
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -259,6 +364,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &638137064
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 638137066}
+  - component: {fileID: 638137065}
+  m_Layer: 0
+  m_Name: NetStatsMonitor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &638137065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638137064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17737e0516da2445b9b0077ae2bd9b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Visible: 1
+  m_MaxRefreshRate: 30
+  <CustomStyleSheet>k__BackingField: {fileID: 0}
+  <PanelSettingsOverride>k__BackingField: {fileID: 0}
+  <Position>k__BackingField:
+    <OverridePosition>k__BackingField: 1
+    m_PositionLeftToRight: 0
+    m_PositionTopToBottom: 0
+  <Configuration>k__BackingField: {fileID: 11400000, guid: 8f1b4e3792d8446399527749cfb591a2, type: 2}
+--- !u!4 &638137066
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638137064}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6472732541135710886
 PrefabInstance:
@@ -312,6 +470,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5122960405364163709, guid: 2fc89f198abcb7141b03940e2fab2259, type: 3}
+      propertyPath: LogLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122960405364163709, guid: 2fc89f198abcb7141b03940e2fab2259, type: 3}
+      propertyPath: NetworkConfig.EnableSceneManagement
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8597916780353300227, guid: 2fc89f198abcb7141b03940e2fab2259, type: 3}
       propertyPath: m_Name
       value: NetworkManager
@@ -321,3 +487,14 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2fc89f198abcb7141b03940e2fab2259, type: 3}
+--- !u!114 &6472732541135710887 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5122960405364163709, guid: 2fc89f198abcb7141b03940e2fab2259, type: 3}
+  m_PrefabInstance: {fileID: 6472732541135710886}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 593a2fe42fa9d37498c96f9a383b6521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

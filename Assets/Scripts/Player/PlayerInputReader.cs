@@ -1,8 +1,9 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputReader : MonoBehaviour
+public class PlayerInputReader : NetworkBehaviour
 {
     [field: SerializeField] public Characters.Control.CharacterController CharacterController { get; private set; }
     [Header("Input Actions")]
@@ -11,14 +12,23 @@ public class PlayerInputReader : MonoBehaviour
     [SerializeField] private string jumpActionName = "Jump";
     
     private PlayerInput _playerInput;
-    
-    private void OnEnable()
+
+    public override void OnNetworkSpawn()
     {
-        StartCoroutine(SubscribeToInputAfterOneFrame());
+        base.OnNetworkSpawn();
+        if (IsOwner)
+            StartCoroutine(SubscribeToInputAfterOneFrame());
+        else
+        {
+            Debug.LogWarning($"{name}: disabling component since it's not owned by this client.");
+            enabled = false;
+        }
+        
     }
 
-    private void OnDisable()
+    public override void OnNetworkDespawn()
     {
+        base.OnNetworkDespawn();
         if (!inputActionAsset)
         {
             Debug.LogError($"{name} ({GetType().Name}): {nameof(inputActionAsset)} is null!");

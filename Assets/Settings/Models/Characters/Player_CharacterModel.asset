@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca2455bc2572777498f79f8ffc0997da, type: 3}
   m_Name: Player_CharacterModel
   m_EditorClassIdentifier: 
-  <maxJumpQty>k__BackingField: 2
+  <maxJumpQty>k__BackingField: 1

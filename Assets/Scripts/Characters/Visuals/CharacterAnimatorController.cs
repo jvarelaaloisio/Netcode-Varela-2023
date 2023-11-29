@@ -1,62 +1,52 @@
 using Characters.Movement;
+using Unity.Netcode;
 using UnityEngine;
 
-public class CharacterAnimatorController : MonoBehaviour
+namespace Characters.Visuals
 {
-    private const string SpeedXParameter = "VelX";
-    private const string JumpParameter = "Jump";
-
-    [SerializeField] private Rigidbody2D rigidbody2D;
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Animator animator;
-    [SerializeField] private Jump jump;
-
-
-    private MovementState _lastState;
-    private readonly int speedXParameterHash = Animator.StringToHash(SpeedXParameter);
-    private readonly int JumpTriggerHash = Animator.StringToHash(JumpParameter);
-
-    private void OnValidate()
+    public class CharacterAnimatorController : NetworkBehaviour
     {
-        spriteRenderer ??= GetComponent<SpriteRenderer>();
-        animator ??= GetComponent<Animator>();
-    }
+        private const string SpeedXParameter = "VelX";
+        private const string JumpParameter = "Jump";
 
-    private void OnEnable()
-    {
-        if (jump) jump.OnBegan += HandleJumpBegan;
-    }
+        [SerializeField] private Rigidbody2D rigidbody2D;
+        [SerializeField] private Animator animator;
+        [SerializeField] private Jump jump;
 
-    private void OnDisable()
-    {
-        if (jump) jump.OnBegan -= HandleJumpBegan;
-    }
 
-    private void Update()
-    {
-        if(transform.hasChanged)
+        private readonly int speedXParameterHash = Animator.StringToHash(SpeedXParameter);
+        private readonly int JumpTriggerHash = Animator.StringToHash(JumpParameter);
+
+        private void Reset()
         {
-            if (_lastState.position.x > transform.position.x)
-                spriteRenderer.flipX = true;
-            else if (_lastState.position.x < transform.position.x)
-                spriteRenderer.flipX = false;
+            animator ??= GetComponent<Animator>();
         }
-        animator.SetFloat(speedXParameterHash, rigidbody2D.velocity.x);
-        _lastState.Save(this);
-    }
 
-    private void HandleJumpBegan()
-    {
-        animator.SetTrigger(JumpTriggerHash);
-    }
-
-    private struct MovementState
-    {
-        public Vector2 position;
-
-        public void Save(CharacterAnimatorController characterAnimatorController)
+        public override void OnNetworkSpawn()
         {
-            position = characterAnimatorController.transform.position;
+            if (!IsOwner)
+            {
+                enabled = false;
+                return;
+            }
+            base.OnNetworkSpawn();
+            if (jump) jump.OnBegan += HandleJumpBegan;
+        }
+
+        public override void OnNetworkDespawn()
+        {
+            base.OnNetworkDespawn();
+            if (jump) jump.OnBegan -= HandleJumpBegan;
+        }
+
+        private void Update()
+        {
+            animator.SetFloat(speedXParameterHash, rigidbody2D.velocity.x);
+        }
+
+        private void HandleJumpBegan()
+        {
+            animator.SetTrigger(JumpTriggerHash);
         }
     }
 }
