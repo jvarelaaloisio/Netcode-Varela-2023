@@ -4,7 +4,15 @@ using UnityEngine;
 [CustomPropertyDrawer(typeof(ScriptableObject), true)]
 public class ScriptableObjectCustomDrawer : PropertyDrawer
 {
+    private const int LABEL_HEIGHT = 20;
+    private const int LINE_HEIGHT = 25;
     private Editor editor = null;
+
+
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        => property.isExpanded
+            ? LINE_HEIGHT * 3 + LABEL_HEIGHT
+            : LABEL_HEIGHT;
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
