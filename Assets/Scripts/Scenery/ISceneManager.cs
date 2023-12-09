@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine.SceneManagement;
 
 namespace Scenery
@@ -9,5 +10,6 @@ namespace Scenery
         void LoadScene(string sceneName, LoadSceneParameters parameters);
         void UnloadScene(string sceneName);
         Scene GetSceneByName(string name);
+        IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode mode);
     }
 }

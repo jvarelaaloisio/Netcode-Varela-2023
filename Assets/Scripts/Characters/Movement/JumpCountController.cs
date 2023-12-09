@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Characters.Movement;
+using Core.Extensions;
 using UnityEngine;
 
 public class JumpCountController : MonoBehaviour
@@ -18,11 +19,10 @@ public class JumpCountController : MonoBehaviour
     private void OnEnable()
     {
         if (!jump)
-            Debug.LogError($"{name} ({GetType().Name}): No jump component was provided!");
+            this.LogError("No jump component was provided!");
         else
         {
             jump.OnBegan += HandleBeganJump;
-            // jump.OnCanceled += HandleCanceledJump;
         }
     }
 

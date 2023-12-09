@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc971b754227ba54d9944bef95cc8486, type: 3}
+  m_Name: PinkMan_CharacterModel
+  m_EditorClassIdentifier: 
+  <BaseSprite>k__BackingField: {fileID: 9044786021765537137, guid: 57bcef4889786ac4eb04625ccaeb43f7, type: 3}
+  <AnimatorOverride>k__BackingField: {fileID: 22100000, guid: 8fbde93735d5fee4d912ad4b1c0348f6, type: 2}

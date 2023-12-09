@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
+using Core.Extensions;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using Unity.Netcode;
 
 using Events.Runtime.Channels;
 using Events.Runtime.Channels.Helpers;
 using Scenery;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 namespace Management
 {
@@ -22,6 +24,7 @@ namespace Management
         [SerializeField] private VoidChannelSo hostChannel;
         [SerializeField] private VoidChannelSo joinChannel;
         [SerializeField] private VoidChannelSo disconnectChannel;
+        [SerializeField] private VoidChannelSo quitChannel;
 
         [Header("Events")]
         public UnityEvent onHost;
@@ -30,6 +33,7 @@ namespace Management
         
         private readonly ISceneManager _unitySceneManager = new UnitySceneManagerFacade();
         private ISceneManager _sceneManager;
+        private LevelManager _currentLevelManager;
 
         private void Awake()
         {
@@ -50,55 +54,75 @@ namespace Management
         {
             hostChannel.TrySubscribe(HostGame);
             joinChannel.TrySubscribe(JoinGame);
-            disconnectChannel.TrySubscribe(ShutDownConnection);
+            disconnectChannel.TrySubscribe(Disconnect);
+            quitChannel.TrySubscribe(QuitGame);
         }
 
         private void OnDisable()
         {
             hostChannel.TryUnsubscribe(HostGame);
             joinChannel.TryUnsubscribe(JoinGame);
-            disconnectChannel.TryUnsubscribe(ShutDownConnection);
+            disconnectChannel.TryUnsubscribe(Disconnect);
+            quitChannel.TryUnsubscribe(QuitGame);
         }
+
+        /// <summary>
+        /// Starts host coroutine
+        /// </summary>
+        private void HostGame() => StartCoroutine(HostGameCoroutine());
 
         /// <summary>
         /// Starts Game as Host
         /// </summary>
-        private void HostGame()
+        private IEnumerator HostGameCoroutine()
         {
             networkManager.StartHost();
-            StartGame();
 
-            var levelScene = SceneManager.GetSceneByName(level.Name);
-            StartCoroutine(InitializeLevel(levelScene));
-            onHost.Invoke();
+            yield return StartGame(onHost.Invoke);
+
+            yield return FindLevelManager(level.Name);
+            
+            yield return _currentLevelManager.InitAsHost();
+            
+            yield return WaitForPlayerToSpawnAndSetItUp();
+        }
+
+        /// <summary>
+        /// Starts Join coroutine
+        /// </summary>
+        private void JoinGame()
+        {
+            StartCoroutine(JoinGameCoroutine());
         }
 
         /// <summary>
         /// Connects to game as client
         /// </summary>
-        private void JoinGame()
+        private IEnumerator JoinGameCoroutine()
         {
             networkManager.StartClient();
-            StartGame();
-            onJoin.Invoke();
-        }
-
-        /// <summary>
-        /// Disconnect the client from the game.
-        /// </summary>
-        private void ShutDownConnection()
-        {
-            networkManager.Shutdown();
+            
+            yield return StartGame(onJoin.Invoke);
+            
+            yield return FindLevelManager(level.Name);
+            
+            yield return new WaitUntil(() => networkManager.LocalClient != null);
+            
+            yield return new WaitUntil(() => networkManager.LocalClient.PlayerObject != null);
+            
+            yield return WaitForPlayerToSpawnAndSetItUp();
         }
 
         /// <summary>
         /// Loads level 1 and subscribes to <see cref="NetworkManager.OnClientStopped"/>
         /// </summary>
-        private void StartGame()
+        /// <param name="onFinish"></param>
+        private IEnumerator StartGame(Action onFinish)
         {
             level.Init(new UnitySceneManagerFacade());
-            level.Load();
+            yield return level.LoadAsync();
             networkManager.OnClientStopped += HandleClientStopped;
+            onFinish?.Invoke();
         }
 
         private void HandleClientStopped(bool wasHost)
@@ -107,18 +131,65 @@ namespace Management
             networkManager.OnClientStopped -= HandleClientStopped;
             onDisconnect.Invoke();
         }
-
-        private static IEnumerator InitializeLevel(Scene scene)
+        
+        /// <summary>
+        /// Finds the level manager on a newly loaded scene
+        /// </summary>
+        /// <param name="sceneName"></param>
+        /// <returns></returns>
+        private IEnumerator FindLevelManager(string sceneName)
         {
+            var scene = SceneManager.GetSceneByName(sceneName);
             yield return new WaitUntil(() => scene.isLoaded);
             
             foreach (var go in scene.GetRootGameObjects())
             {
                 if (!go.TryGetComponent(out LevelManager levelManager))
                     continue;
-                yield return levelManager.Init();
+                _currentLevelManager = levelManager;
                 break;
             }
+        }
+
+        /// <summary>
+        /// Waits till local player is not null and then sets it up via the level manager
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator WaitForPlayerToSpawnAndSetItUp()
+        {
+            var localPlayer = networkManager.SpawnManager.GetLocalPlayerObject();
+
+            if (!localPlayer)
+            {
+                this.LogError($"{nameof(localPlayer)} is null!" +
+                              $"\nDisconnecting!");
+                Disconnect();
+                yield break;
+            }
+            yield return _currentLevelManager.SetupPlayer(localPlayer);
+        }
+
+        /// <summary>
+        /// Disconnect the client from the game.
+        /// </summary>
+        private void Disconnect()
+        {
+            networkManager.Shutdown();
+        }
+
+        /// <summary>
+        /// Quits the game
+        /// </summary>
+        private static void QuitGame()
+        {
+#if UNITY_EDITOR
+            if (Application.isPlaying)
+            {
+                UnityEditor.EditorApplication.isPlaying = false;
+                return;
+            }
+#endif
+            Application.Quit();
         }
     }
 }

@@ -147,13 +147,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 75069237}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &75069239
 MonoBehaviour:
@@ -172,11 +172,12 @@ MonoBehaviour:
     name: Menu
     loadMode: 1
   level:
-    name: Level
+    name: Lobby
     loadMode: 1
   hostChannel: {fileID: 11400000, guid: 1b228f79a1192844d8b162b48779d9c0, type: 2}
   joinChannel: {fileID: 11400000, guid: 44901deee41627549860237c9dd07ec3, type: 2}
   disconnectChannel: {fileID: 11400000, guid: 1e704c85bc318a54ea24e4a1f61f765a, type: 2}
+  quitChannel: {fileID: 11400000, guid: 8d0d915f3d6db1b4394c598bcd7f4058, type: 2}
   onHost:
     m_PersistentCalls:
       m_Calls:
@@ -338,7 +339,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -357,13 +358,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &638137064
 GameObject:
@@ -410,13 +411,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 638137064}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6472732541135710886
 PrefabInstance:
@@ -475,6 +476,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5122960405364163709, guid: 2fc89f198abcb7141b03940e2fab2259, type: 3}
+      propertyPath: NetworkConfig.PlayerPrefab
+      value: 
+      objectReference: {fileID: 5246454878965994020, guid: 669e264472718ed4eab53c5601ecb51b, type: 3}
+    - target: {fileID: 5122960405364163709, guid: 2fc89f198abcb7141b03940e2fab2259, type: 3}
       propertyPath: NetworkConfig.EnableSceneManagement
       value: 0
       objectReference: {fileID: 0}
@@ -498,3 +503,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593a2fe42fa9d37498c96f9a383b6521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1660057539 &9223372036854775807
+SceneRoots:
+  m_ObjectHideFlags: 0
+  m_Roots:
+  - {fileID: 6472732541135710886}
+  - {fileID: 519420032}
+  - {fileID: 75069238}
+  - {fileID: 638137066}

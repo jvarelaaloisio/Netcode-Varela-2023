@@ -1,9 +1,16 @@
-﻿using UnityEngine.SceneManagement;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Scenery
 {
     public class UnitySceneManagerFacade : ISceneManager
     {
+        public IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode loadSceneMode)
+        {
+            var loadOperation = SceneManager.LoadSceneAsync(sceneName, loadSceneMode);
+            yield return new WaitUntil(() => loadOperation.isDone);
+        }
         public void LoadScene(string sceneName)
             => SceneManager.LoadScene(sceneName);
 

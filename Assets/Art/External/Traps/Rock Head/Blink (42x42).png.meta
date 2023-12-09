@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 42
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
@@ -136,13 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Blink (42x42)_0
+      name: 0, 0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 5
-        width: 32
-        height: 32
+        x: 0
+        y: 0
+        width: 42
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -157,13 +157,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blink (42x42)_1
+      name: 0, 1
       rect:
         serializedVersion: 2
-        x: 47
-        y: 5
-        width: 32
-        height: 32
+        x: 42
+        y: 0
+        width: 42
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,13 +178,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blink (42x42)_2
+      name: 0, 2
       rect:
         serializedVersion: 2
-        x: 89
-        y: 5
-        width: 32
-        height: 32
+        x: 84
+        y: 0
+        width: 42
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -199,13 +199,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blink (42x42)_3
+      name: 0, 3
       rect:
         serializedVersion: 2
-        x: 131
-        y: 5
-        width: 32
-        height: 32
+        x: 126
+        y: 0
+        width: 42
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -230,10 +230,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Blink (42x42)_0: 1501386452
-      Blink (42x42)_1: -393218307
-      Blink (42x42)_2: 1915290556
-      Blink (42x42)_3: 740535677
+      0, 0: 1501386452
+      0, 1: -393218307
+      0, 2: 1915290556
+      0, 3: 740535677
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

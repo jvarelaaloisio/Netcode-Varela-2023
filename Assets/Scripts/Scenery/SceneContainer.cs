@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,6 +28,15 @@ namespace Scenery
             _manager.LoadScene(Name, loadMode);
         }
 
+        /// <summary>
+        /// Loads the scene asynchronously
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator LoadAsync()
+        {
+            yield return _manager.LoadSceneAsync(name, loadMode);
+        }
+        
         public void Unload()
         {
             _manager.UnloadScene(Name);

@@ -35,9 +35,11 @@ namespace Management
         {
             foreach (var menu in menus)
             {
+                if (!menu)
+                    continue;
                 var isCurrentMenu = menu.ID == menuId;
                 menu.gameObject.SetActive(isCurrentMenu);
-                if (isCurrentMenu)
+                if (isCurrentMenu && menu.FirstSelection)
                     EventSystem.current.SetSelectedGameObject(menu.FirstSelection);
             }
         }

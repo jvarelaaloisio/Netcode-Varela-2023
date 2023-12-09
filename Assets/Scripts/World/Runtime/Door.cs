@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Extensions;
+using Core.World;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,17 +12,40 @@ namespace World.Runtime
     {
         [Header("Setup")]
         [SerializeField] private float openDuration = 1;
-        [SerializeField] private Vector3 openOffset = Vector3.up;
-        
+
+        [field: SerializeField] public Vector3 MoveOffset { get; set; } = Vector3.up;
+
         [Header("Animator")]
         [SerializeField] private Animator animator;
-        [SerializeField] private string openParam = "isOpen";
-        
-        private Action<Door> onOpen;
+        [SerializeField] private string moveAnimParam = "isMoving";
+        private int moveAnimParamHash;
+
+        public Action<Door> onOpen;
 
         public int PlatesNeeded { get; private set; }
         [field: SerializeField] public List<PressurePlate> PressurePlates { get; set; }
 
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            moveAnimParamHash = Animator.StringToHash(moveAnimParam);
+        }
+
+        /// <summary>
+        /// Let's setup this spawnable
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="plates">Pressure plates to add</param>
+        /// <param name="onOpenHandler">Handler method for <see cref="onOpen"/>> callback</param>
+        public void Init(Config config, IEnumerable<PressurePlate> plates, Action<Door> onOpenHandler = null)
+        {
+            MoveOffset = config.MoveOffset;
+            foreach (var plate in plates)
+                AddPressurePlate(plate);
+            if (onOpenHandler != null)
+                onOpen += onOpenHandler;
+        }
+        
         public void AddPressurePlate(PressurePlate pressurePlate)
         {
             pressurePlate.OnPress += HandlePress;
@@ -32,16 +57,24 @@ namespace World.Runtime
             PlatesNeeded--;
             pressurePlate.OnPress -= HandlePress;
             if (PlatesNeeded <= 0)
-                StartCoroutine(Open());
+                StartCoroutine(Move());
         }
 
-        private IEnumerator Open()
+        private IEnumerator Move()
         {
-            Debug.Log($"[{name}] was opened!");
             if (animator)
-                animator.SetBool(openParam, true);
+                animator.SetBool(moveAnimParamHash, true);
+            yield return MoveTowards(MoveOffset);
+            onOpen?.Invoke(this);
+            if (animator)
+                animator.SetBool(moveAnimParamHash, false);
+            this.Log($"moved towards {MoveOffset}!");
+        }
+
+        private IEnumerator MoveTowards(Vector3 offset)
+        {
             var startPosition = transform.position;
-            var destPosition = startPosition + openOffset;
+            var destPosition = startPosition + offset;
             var startTime = Time.time;
             var now = Time.time;
             while (startTime + openDuration > now)
@@ -53,7 +86,11 @@ namespace World.Runtime
             }
 
             transform.position = destPosition;
-            onOpen?.Invoke(this);
+        }
+        [Serializable]
+        public class Config : SpawnConfig<Door>
+        {
+            [field: SerializeField] public Vector3 MoveOffset { get; set; } = Vector3.up;
         }
     }
 }
