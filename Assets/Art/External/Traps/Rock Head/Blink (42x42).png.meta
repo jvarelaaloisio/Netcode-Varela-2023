@@ -50,7 +50,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -136,85 +136,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 0, 0
+      name: Blink (42x42)_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 42
-        height: 42
+        x: 5
+        y: 5
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8f117ceb4772ced4eb96873a48ef6c3c
-      internalID: 9044786021765537137
+      spriteID: 57beb776d9329fa4ba3628abf336b6ae
+      internalID: 1501386452
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 0, 1
+      name: Blink (42x42)_1
       rect:
         serializedVersion: 2
-        x: 42
-        y: 0
-        width: 42
-        height: 42
+        x: 47
+        y: 5
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 763c21d0c88536e4c8302c2265ddeb06
-      internalID: 3647156553916755266
+      spriteID: 53bad74c4475ff64ab44799f2335779a
+      internalID: -393218307
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 0, 2
+      name: Blink (42x42)_2
       rect:
         serializedVersion: 2
-        x: 84
-        y: 0
-        width: 42
-        height: 42
+        x: 89
+        y: 5
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d4ccbbfa1f28cd749b43e3a0902ca1d8
-      internalID: -7025760825990288548
+      spriteID: e0f93f184e199064dbd3a39a79c666fc
+      internalID: 1915290556
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 0, 3
+      name: Blink (42x42)_3
       rect:
         serializedVersion: 2
-        x: 126
-        y: 0
-        width: 42
-        height: 42
+        x: 131
+        y: 5
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e8a509bac12a0934bbe8b3181f3bb63e
-      internalID: 1008453939145656331
+      spriteID: 1c1cbe75238396c4ba39856350e1b4bc
+      internalID: 740535677
       vertices: []
       indices: 
       edges: []
@@ -230,10 +230,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      0, 0: 9044786021765537137
-      0, 1: 3647156553916755266
-      0, 2: -7025760825990288548
-      0, 3: 1008453939145656331
+      Blink (42x42)_0: 1501386452
+      Blink (42x42)_1: -393218307
+      Blink (42x42)_2: 1915290556
+      Blink (42x42)_3: 740535677
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
