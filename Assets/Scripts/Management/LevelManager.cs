@@ -32,18 +32,18 @@ namespace Management
 
         public IEnumerator SetupPlayer(NetworkObject newPlayer)
         {
-            var clientIdInteger = (int)newPlayer.OwnerClientId;
-            this.Log($"Setting up player {clientIdInteger}");
+            var clientId = (int)newPlayer.OwnerClientId;
+            this.Log($"Setting up player {clientId}");
             var setup = newPlayer.GetComponentInChildren<ICharacterSetup>();
             if (setup == null)
-                this.LogError($"{nameof(setup)} is null! (clientId was {clientIdInteger})");
-            else if (playerSetups.TryGetValueNotNull(clientIdInteger, out var characterSetup))
+                this.LogError($"{nameof(setup)} is null! (clientId was {clientId})");
+            else if (playerSetups.TryGetValueNotNull(clientId, out var characterSetup))
             {
                 setup.OverrideBaseSprite(characterSetup.BaseSprite);
                 setup.OverrideAnimatorController(characterSetup.AnimatorOverride);
             }
 
-            if (playerSpawnPoints.TryGetValueNotNull(clientIdInteger, out var spawnPoint))
+            if (playerSpawnPoints.TryGetValueNotNull(clientId, out var spawnPoint))
                 newPlayer.transform.position = spawnPoint.position;
             yield break;
         }

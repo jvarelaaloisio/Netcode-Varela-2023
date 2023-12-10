@@ -9,7 +9,7 @@ namespace World.Runtime
 {
     public class SimpleDoorPuzzle : Spawner
     {
-        [SerializeField] private Door.Config doorConfig = new();
+        [SerializeField] private Door.Config doorConfig;
         [SerializeField] private SpawnConfig<PressurePlate> pressurePlateConfig;
         
         [Header("On Complete")]

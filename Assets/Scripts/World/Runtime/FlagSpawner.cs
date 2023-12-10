@@ -19,7 +19,7 @@ namespace World.Runtime
             var flags = SpawnList(config);
             foreach (var flag in flags)
             {
-                flag.Init(config);
+                flag.ApplyConfig(config);
             }
         }
     }

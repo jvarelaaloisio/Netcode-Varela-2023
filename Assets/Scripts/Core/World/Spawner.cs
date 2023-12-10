@@ -23,10 +23,11 @@ namespace Core.World
         protected IEnumerable<T> SpawnList<T>(SpawnConfig<T> configs) where T : MonoBehaviour
         {
             var result = new List<T>();
-            var notNullSpawnPoints = Enumerable.Where<Transform>(configs.SpawnPoints, t => t);
+            var notNullSpawnPoints = configs.SpawnPoints.Where(t => t);
             foreach (var spawnPoint in notNullSpawnPoints)
             {
-                var spawned = Instantiate<T>(configs.Prefab, spawnPoint.position, spawnPoint.rotation);
+                var spawned = Instantiate(configs.Prefab, spawnPoint.position, spawnPoint.rotation);
+                spawned.transform.localScale = spawnPoint.localScale;
                 SceneManager.MoveGameObjectToScene(spawned.gameObject, gameObject.scene);
                 SpawnNetworkObject(spawned);
                 result.Add(spawned);

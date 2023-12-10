@@ -55,8 +55,10 @@ namespace World.Runtime
         private void PressClientRpc()
         {
             openCollider.gameObject.SetActive(false);
-            closedCollider.SetActive(true);
-            if (animator) animator.SetBool(pressedParam, true);
+            if (closedCollider)
+                closedCollider.SetActive(true);
+            if (animator)
+                animator.SetBool(pressedParam, true);
             OnPress(this);
             onPress.Invoke();
         }
@@ -66,8 +68,10 @@ namespace World.Runtime
         public void ResetToDefaultClientRpc()
         {
             openCollider.gameObject.SetActive(true);
-            closedCollider.SetActive(false);
-            if (animator) animator.SetBool(pressedParam, false);
+            if (closedCollider)
+                closedCollider.SetActive(false);
+            if (animator)
+                animator.SetBool(pressedParam, false);
             OnReset(this);
             onReset.Invoke();
         }

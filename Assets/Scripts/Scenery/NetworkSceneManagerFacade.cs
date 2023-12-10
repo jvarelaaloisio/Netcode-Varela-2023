@@ -46,15 +46,16 @@ namespace Scenery
         public Scene GetSceneByName(string name)
             => SceneManager.GetSceneByName(name);
 
-        public IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode _)
+        public IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode loadSceneMode)
         {
             bool isLoaded = false;
-            LoadScene(sceneName);
+            LoadScene(sceneName, loadSceneMode);
             _networkSceneManager.OnLoadEventCompleted += HandleOnLoad;
             yield return new WaitUntil(() => isLoaded);
             
             void HandleOnLoad(string newlyLoadedSceneName, LoadSceneMode loadscenemode, List<ulong> clientscompleted, List<ulong> clientstimedout)
             {
+                _networkSceneManager.OnLoadEventCompleted -= HandleOnLoad;
                 if (newlyLoadedSceneName == sceneName)
                     isLoaded = true;
             }

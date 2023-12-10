@@ -1,5 +1,5 @@
 using System.Collections;
-
+using Core.Extensions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Netcode;
@@ -23,10 +23,9 @@ namespace Player
                 StartCoroutine(SubscribeToInputAfterOneFrame());
             else
             {
-                Debug.LogWarning($"{name}: disabling component since it's not owned by this client.");
+                this.Log("Disabling component since it's not owned by this client.");
                 enabled = false;
             }
-        
         }
 
         public override void OnNetworkDespawn()

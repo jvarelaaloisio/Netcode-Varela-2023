@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Core.Extensions;
+using EventChannels.Runtime.Additions.Ids;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -18,22 +21,38 @@ namespace Management
         [Header("Setup")]
         [SerializeField] private NetworkManager networkManager;
         [SerializeField]private SceneContainer mainMenu;
-        [SerializeField] private SceneContainer level;
-        
+        [Header("Levels")]
+        [SerializeField] private SceneContainer lobby;
+
+        [SerializeField] private LevelWithId[] levels;
+        private readonly Dictionary<Id, SceneContainer> _levelsById = new();
+        private SceneContainer _currentLevel;
+
         [Header("Channels Listened")]
         [SerializeField] private VoidChannelSo hostChannel;
         [SerializeField] private VoidChannelSo joinChannel;
         [SerializeField] private VoidChannelSo disconnectChannel;
         [SerializeField] private VoidChannelSo quitChannel;
+        [SerializeField] private IdChannelSo goToNextLevelChannel;
 
         [Header("Events")]
         public UnityEvent onHost;
         public UnityEvent onJoin;
         public UnityEvent onDisconnect;
+        public UnityEvent<SceneContainer> onUnloadingLevel;
+        public UnityEvent<SceneContainer> onLoadedLevel;
         
         private readonly ISceneManager _unitySceneManager = new UnitySceneManagerFacade();
         private ISceneManager _sceneManager;
         private LevelManager _currentLevelManager;
+        private void OnValidate()
+        {
+            mainMenu.Validate();
+            lobby.Validate();
+            InitializeLevelsDictionary();
+            foreach (var pair in _levelsById)
+                pair.Value.Validate();
+        }
 
         private void Awake()
         {
@@ -46,8 +65,14 @@ namespace Management
                 return;
             }
 
-            mainMenu.Init(_unitySceneManager);
+            mainMenu.Config(_unitySceneManager);
             mainMenu.Load();
+            InitializeLevelsDictionary();
+            if (levels.Length > _levelsById.Count)
+            {
+                this.LogWarning($"The {nameof(levels)} provided seems to have duplicated Ids." +
+                                $"\nThis is not allowed!");
+            }
         }
 
         private void OnEnable()
@@ -56,6 +81,7 @@ namespace Management
             joinChannel.TrySubscribe(JoinGame);
             disconnectChannel.TrySubscribe(Disconnect);
             quitChannel.TrySubscribe(QuitGame);
+            goToNextLevelChannel.TrySubscribe(GoToNextLevel);
         }
 
         private void OnDisable()
@@ -64,6 +90,55 @@ namespace Management
             joinChannel.TryUnsubscribe(JoinGame);
             disconnectChannel.TryUnsubscribe(Disconnect);
             quitChannel.TryUnsubscribe(QuitGame);
+        }
+
+        /// <summary>
+        /// Adds all levels from the levels list to the internal dictionary
+        /// </summary>
+        private void InitializeLevelsDictionary()
+        {
+            foreach (var current in levels)
+            {
+                if (!current.ID || current.Container == null)
+                    continue;
+                if (!_levelsById.ContainsKey(current.ID))
+                    _levelsById.Add(current.ID, current.Container);
+            }
+        }
+
+        private void GoToNextLevel(Id levelId)
+        {
+            GoToNextLevelServerRPC(levelId.name);
+        }
+
+        [ServerRpc]
+        private void GoToNextLevelServerRPC(string idName)
+        {
+            GoToNextLevelClientRPC(idName);
+        }
+        
+        [ClientRpc]
+        private void GoToNextLevelClientRPC(string idName)
+        {
+            var levelPair = _levelsById.FirstOrDefault(pair => pair.Key.name == idName);
+            if (levelPair.Value != null)
+                StartCoroutine(GoToNextLevelCoroutine(levelPair.Value));
+            else
+                this.LogError($"No level assigned to Id [{idName}]");
+        }
+
+        private IEnumerator GoToNextLevelCoroutine(SceneContainer nextLevel)
+        {
+            yield return LoadLevel(nextLevel);
+            yield return FindLevelManager(nextLevel.Name);
+            if (!_currentLevelManager)
+            {
+                this.LogError($"{_currentLevelManager} was not found in level {nextLevel.Name}. <color=red>Aborting!</color>");
+                yield break;
+            }
+            if (networkManager.IsHost)
+                yield return _currentLevelManager.InitAsHost();
+            yield return WaitForPlayerToSpawnAndSetItUp();
         }
 
         /// <summary>
@@ -76,15 +151,25 @@ namespace Management
         /// </summary>
         private IEnumerator HostGameCoroutine()
         {
+            
             networkManager.StartHost();
 
-            yield return StartGame(onHost.Invoke);
+            yield return StartGame(onHost.Invoke, lobby);
 
-            yield return FindLevelManager(level.Name);
+            yield return FindLevelManager(lobby.Name);
             
             yield return _currentLevelManager.InitAsHost();
             
             yield return WaitForPlayerToSpawnAndSetItUp();
+            
+            networkManager.OnClientDisconnectCallback += HandleClientDisconnected;
+        }
+
+        private void HandleClientDisconnected(ulong clientId)
+        {
+            if (!networkManager.IsHost)
+                return;
+            Disconnect();
         }
 
         /// <summary>
@@ -102,9 +187,9 @@ namespace Management
         {
             networkManager.StartClient();
             
-            yield return StartGame(onJoin.Invoke);
+            yield return StartGame(onJoin.Invoke, lobby);
             
-            yield return FindLevelManager(level.Name);
+            yield return FindLevelManager(lobby.Name);
             
             yield return new WaitUntil(() => networkManager.LocalClient != null);
             
@@ -114,21 +199,42 @@ namespace Management
         }
 
         /// <summary>
-        /// Loads level 1 and subscribes to <see cref="NetworkManager.OnClientStopped"/>
+        /// Loads <see cref="lobbyLevel"/> and subscribes to <see cref="NetworkManager.OnClientStopped"/>
         /// </summary>
         /// <param name="onFinish"></param>
-        private IEnumerator StartGame(Action onFinish)
+        /// <param name="lobbyLevel"></param>
+        private IEnumerator StartGame(Action onFinish, SceneContainer lobbyLevel)
         {
-            level.Init(new UnitySceneManagerFacade());
-            yield return level.LoadAsync();
+            yield return LoadLevel(lobbyLevel);
             networkManager.OnClientStopped += HandleClientStopped;
             onFinish?.Invoke();
         }
 
+        /// <summary>
+        /// Unloads current and loads next level
+        /// </summary>
+        /// <param name="newLevel">level to load</param>
+        /// <returns></returns>
+        private IEnumerator LoadLevel(SceneContainer newLevel)
+        {
+            onUnloadingLevel.Invoke(_currentLevel);
+            _currentLevel?.Unload();
+            newLevel.Config(new UnitySceneManagerFacade());
+            yield return newLevel.LoadAsync();
+            _currentLevel = newLevel;
+            onLoadedLevel.Invoke(newLevel);
+        }
+
+        /// <summary>
+        /// Called when disconnecting
+        /// </summary>
+        /// <param name="wasHost"></param>
         private void HandleClientStopped(bool wasHost)
         {
-            level.Unload();
+            _currentLevel.Unload();
+            _currentLevel = null;
             networkManager.OnClientStopped -= HandleClientStopped;
+            // networkManager.OnClientDisconnectCallback -= HandleClientDisconnected;
             onDisconnect.Invoke();
         }
         
@@ -158,7 +264,6 @@ namespace Management
         private IEnumerator WaitForPlayerToSpawnAndSetItUp()
         {
             var localPlayer = networkManager.SpawnManager.GetLocalPlayerObject();
-
             if (!localPlayer)
             {
                 this.LogError($"{nameof(localPlayer)} is null!" +
@@ -190,6 +295,13 @@ namespace Management
             }
 #endif
             Application.Quit();
+        }
+        
+        [Serializable]
+        private struct LevelWithId
+        {
+            [field: SerializeField] public Id ID { get; set; }
+            [field: SerializeField] public SceneContainer Container { get; set; }
         }
     }
 }
