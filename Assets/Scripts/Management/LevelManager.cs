@@ -11,14 +11,15 @@ namespace Management
 {
     public class LevelManager : MonoBehaviour
     {
+        [ContextMenuItem("Populate spawners", nameof(FindAllSpawners))]
         [SerializeField] private List<Spawner> spawners;
         [SerializeField] private Transform[] playerSpawnPoints;
         [SerializeField] private CharacterSetup[] playerSetups;
-
+        [SerializeField] private CameraModel cameraModel;
+        
         [Range(1, 100)] [Tooltip("The max quantity of spawners to spawn every frame")] [SerializeField]
         private int spawnBatchSize = 10;
-
-
+        
         public IEnumerator InitAsHost()
         {
             int counter = 0;
@@ -40,7 +41,7 @@ namespace Management
                     yield return null;
             }
         }
-        public IEnumerator SetupPlayer(NetworkObject newPlayer)
+        public IEnumerator SetupLevel(NetworkObject newPlayer)
         {
             var clientId = (int)newPlayer.OwnerClientId;
             this.Log($"Setting up player {clientId}");
@@ -58,7 +59,16 @@ namespace Management
 
             var spawnPoint = playerSpawnPoints[Mathf.Clamp(clientId, 0, playerSpawnPoints.Length - 1)];
             newPlayer.transform.position = spawnPoint.position;
-            yield break;
+
+            if (cameraModel)
+                yield return cameraModel.Apply(Camera.main);
         }
+
+#if UNITY_EDITOR
+        private void FindAllSpawners()
+        {
+            spawners = new List<Spawner>(FindObjectsByType<Spawner>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID));
+        }
+#endif
     }
 }

@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Tropphy
+  m_Controller: {fileID: 9100000, guid: 4b409e0e247ba094d95f8c50a4a0b650, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 465634c328e95aa40a5992952215dc9b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4325e81e7e31eab4cbdf27abe5da90f1, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: d738fe1318b0bed4599dac829568210a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: dc74e1255de3c3f4eac3c47413f215a4, type: 2}

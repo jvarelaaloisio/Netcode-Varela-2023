@@ -283,7 +283,7 @@ namespace Management
                 Disconnect();
                 yield break;
             }
-            yield return _currentLevelManager.SetupPlayer(localPlayer);
+            yield return _currentLevelManager.SetupLevel(localPlayer);
         }
 
         /// <summary>
