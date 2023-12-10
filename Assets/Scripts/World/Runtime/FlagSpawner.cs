@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 using Core.Extensions;
@@ -8,6 +9,7 @@ namespace World.Runtime
     public class FlagSpawner : Spawner
     {
         [SerializeField] private Flag.Config config;
+
         public override void Spawn()
         {
             if (config.Prefab == null)
@@ -16,11 +18,10 @@ namespace World.Runtime
                 return;
             }
 
-            var flags = SpawnList(config);
+            var flags = SpawnList(config).ToArray();
             foreach (var flag in flags)
-            {
                 flag.ApplyConfig(config);
-            }
+            SpawnedObjects.AddRange(flags);
         }
     }
 }

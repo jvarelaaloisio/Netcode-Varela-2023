@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8229333778847247587}
   - component: {fileID: 1676129494110074619}
   - component: {fileID: 6215306991839248447}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PressurePlate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,7 +297,7 @@ GameObject:
   - component: {fileID: 8391199589741562757}
   - component: {fileID: 8572775178734848588}
   - component: {fileID: 8244477846317196734}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,7 +418,7 @@ GameObject:
   - component: {fileID: 1305387744899660581}
   - component: {fileID: 330336183136413510}
   - component: {fileID: 4070908883460842909}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OpenCollision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -492,7 +492,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 128
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0

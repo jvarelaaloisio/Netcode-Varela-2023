@@ -15,7 +15,7 @@ namespace World.Runtime
         [Header("On Complete")]
         [SerializeField] private Id id;
         [SerializeField] private IdChannelSo onCompleteChannel;
-        
+
         public override void Spawn()
         {
             if (!doorConfig.Prefab)
@@ -40,10 +40,14 @@ namespace World.Runtime
             var firstDoor = doors.FirstOrDefault();
             if (firstDoor)
                 firstDoor.onOpen += HandleDoorOpened;
+            
+            SpawnedObjects.AddRange(doors);
+            SpawnedObjects.AddRange(pressurePlates);
         }
 
         private void HandleDoorOpened(Door door)
         {
+            door.onOpen += HandleDoorOpened;
             onCompleteChannel.RaiseEvent(id);
         }
 

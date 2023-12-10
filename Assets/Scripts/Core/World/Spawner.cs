@@ -8,13 +8,14 @@ namespace Core.World
 {
     public abstract class Spawner : MonoBehaviour
     {
+        protected readonly List<NetworkBehaviour> SpawnedObjects = new();
         public abstract void Spawn();
 
         protected void SpawnNetworkObject(Component instantiatedObject)
         {
             if (instantiatedObject.TryGetComponent(out NetworkObject doorNetworkObject))
             {
-                doorNetworkObject.Spawn();
+                doorNetworkObject.Spawn(true);
             }
             else
                 Debug.LogError($"[{name}] {instantiatedObject.name} doesn't have networkObject component!");
@@ -34,6 +35,14 @@ namespace Core.World
             }
 
             return result;
+        }
+
+        public void Despawn()
+        {
+            foreach (var spawned in SpawnedObjects)
+            {
+                spawned.NetworkObject.Despawn();
+            }
         }
     }
 }

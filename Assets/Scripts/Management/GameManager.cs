@@ -114,6 +114,18 @@ namespace Management
         [ServerRpc]
         private void GoToNextLevelServerRPC(string idName)
         {
+            StartCoroutine(DespawnCurrentLevelThenGoToNext(idName));
+        }
+
+        /// <summary>
+        /// Despawns all objects from current level manager
+        /// </summary>
+        /// <param name="idName"></param>
+        /// <returns></returns>
+        private IEnumerator DespawnCurrentLevelThenGoToNext(string idName)
+        {
+            if (_currentLevelManager)
+                yield return _currentLevelManager.DespawnAllAsHost();
             GoToNextLevelClientRPC(idName);
         }
         
@@ -234,7 +246,7 @@ namespace Management
             _currentLevel.Unload();
             _currentLevel = null;
             networkManager.OnClientStopped -= HandleClientStopped;
-            // networkManager.OnClientDisconnectCallback -= HandleClientDisconnected;
+            networkManager.OnClientDisconnectCallback -= HandleClientDisconnected;
             onDisconnect.Invoke();
         }
         

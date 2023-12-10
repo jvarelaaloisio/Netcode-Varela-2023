@@ -30,6 +30,16 @@ namespace Management
             }
         }
 
+        public IEnumerator DespawnAllAsHost()
+        {
+            int counter = 0;
+            foreach (var spawner in spawners)
+            {
+                spawner.Despawn();
+                if (++counter >= spawnBatchSize)
+                    yield return null;
+            }
+        }
         public IEnumerator SetupPlayer(NetworkObject newPlayer)
         {
             var clientId = (int)newPlayer.OwnerClientId;
@@ -37,14 +47,17 @@ namespace Management
             var setup = newPlayer.GetComponentInChildren<ICharacterSetup>();
             if (setup == null)
                 this.LogError($"{nameof(setup)} is null! (clientId was {clientId})");
-            else if (playerSetups.TryGetValueNotNull(clientId, out var characterSetup))
+            else if (playerSetups.Length < 1)
+                Debug.LogError($"{name}: {nameof(playerSetups)} is empty!");
+            else
             {
+                var characterSetup = playerSetups[Mathf.Clamp(clientId, 0, playerSetups.Length - 1)];
                 setup.OverrideBaseSprite(characterSetup.BaseSprite);
                 setup.OverrideAnimatorController(characterSetup.AnimatorOverride);
             }
 
-            if (playerSpawnPoints.TryGetValueNotNull(clientId, out var spawnPoint))
-                newPlayer.transform.position = spawnPoint.position;
+            var spawnPoint = playerSpawnPoints[Mathf.Clamp(clientId, 0, playerSpawnPoints.Length - 1)];
+            newPlayer.transform.position = spawnPoint.position;
             yield break;
         }
     }
