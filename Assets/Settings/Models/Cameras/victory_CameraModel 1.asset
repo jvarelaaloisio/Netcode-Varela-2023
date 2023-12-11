@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00954aecf8c237c42b22995b79a0e488, type: 3}
-  m_Name: levelVictory_CameraModel 1
+  m_Name: victory_CameraModel 1
   m_EditorClassIdentifier: 
   duration:
     serializedVersion: 2

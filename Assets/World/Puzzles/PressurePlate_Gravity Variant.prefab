@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1676129494110074619, guid: 8594536efb911d54d8b62d8804b65e9e, type: 3}
+      propertyPath: SyncPositionY
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1676129494110074619, guid: 8594536efb911d54d8b62d8804b65e9e, type: 3}
+      propertyPath: SyncPositionZ
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2494567835808547607, guid: 8594536efb911d54d8b62d8804b65e9e, type: 3}
       propertyPath: m_Name
       value: PressurePlate_Gravity Variant

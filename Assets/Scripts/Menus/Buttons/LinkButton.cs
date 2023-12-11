@@ -7,6 +7,7 @@ namespace Menus.Buttons
     public class LinkButton : MonoBehaviour
     {
         [SerializeField] private string url;
+        [SerializeField, HideInInspector]
         private Button _button;
 
         private void Reset()

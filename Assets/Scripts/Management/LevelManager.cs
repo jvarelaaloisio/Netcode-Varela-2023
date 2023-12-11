@@ -49,7 +49,13 @@ namespace Management
                     yield return null;
             }
         }
-        public IEnumerator SetupLevel(NetworkObject newPlayer)
+        
+        /// <summary>
+        /// Sets everything up for the level (client side)
+        /// </summary>
+        /// <param name="newPlayer"></param>
+        /// <returns></returns>
+        public IEnumerator SetupLevelAsClient(NetworkObject newPlayer)
         {
             var clientId = (int)newPlayer.OwnerClientId;
             this.Log($"Setting up player {clientId}");
@@ -68,10 +74,10 @@ namespace Management
             var spawnPoint = playerSpawnPoints[Mathf.Clamp(clientId, 0, playerSpawnPoints.Length - 1)];
             newPlayer.transform.position = spawnPoint.position;
 
-            if (cameraModel)
-                yield return cameraModel.Apply(Camera.main);
             if (menuId)
                 changeMenuChannel.TryRaiseEvent(menuId);
+            if (cameraModel)
+                yield return cameraModel.Apply(Camera.main);
         }
 
 #if UNITY_EDITOR

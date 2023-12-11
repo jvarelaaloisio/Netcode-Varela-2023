@@ -2,7 +2,8 @@
     "name": "VarelaAloisio.2D.Core.Runtime",
     "rootNamespace": "",
     "references": [
-        "GUID:1491147abca9d7d4bb7105af628b223e"
+        "GUID:1491147abca9d7d4bb7105af628b223e",
+        "GUID:ce4ae6fe238879f448b9987d3c1b8c52"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

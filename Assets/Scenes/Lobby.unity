@@ -16964,7 +16964,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 80a8df5850680c448aeb80dc144d1b2a, type: 2}
   - {fileID: 11400000, guid: 554088a1eb1d84140a1d98972ec7d223, type: 2}
   - {fileID: 11400000, guid: c51b3b6ce3fe983458c1e6bb565c6c2e, type: 2}
-  cameraModel: {fileID: 0}
+  cameraModel: {fileID: 11400000, guid: b1600a5b4c1e11d4c8cd854b2888a326, type: 2}
   menuId: {fileID: 11400000, guid: 7201dbde66f3c994184eb600056b771d, type: 2}
   changeMenuChannel: {fileID: 11400000, guid: d16797dadec11c64ba3a0936d2829628, type: 2}
   spawnBatchSize: 10
