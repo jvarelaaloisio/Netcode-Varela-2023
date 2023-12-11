@@ -4,6 +4,8 @@ using Core.Characters;
 using Core.Extensions;
 using Core.Models;
 using Core.World;
+using EventChannels.Runtime.Additions.Ids;
+using Events.Runtime.Channels.Helpers;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,11 +13,17 @@ namespace Management
 {
     public class LevelManager : MonoBehaviour
     {
+#if UNITY_EDITOR
         [ContextMenuItem("Populate spawners", nameof(FindAllSpawners))]
+#endif
         [SerializeField] private List<Spawner> spawners;
         [SerializeField] private Transform[] playerSpawnPoints;
         [SerializeField] private CharacterSetup[] playerSetups;
+        [Header("Camera")]
         [SerializeField] private CameraModel cameraModel;
+        [Header("Menu")]
+        [SerializeField] private Id menuId;
+        [SerializeField] private IdChannelSo changeMenuChannel;
         
         [Range(1, 100)] [Tooltip("The max quantity of spawners to spawn every frame")] [SerializeField]
         private int spawnBatchSize = 10;
@@ -62,6 +70,8 @@ namespace Management
 
             if (cameraModel)
                 yield return cameraModel.Apply(Camera.main);
+            if (menuId)
+                changeMenuChannel.TryRaiseEvent(menuId);
         }
 
 #if UNITY_EDITOR

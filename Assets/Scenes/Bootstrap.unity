@@ -192,6 +192,16 @@ MonoBehaviour:
       scene: {fileID: 102900000, guid: 024a63b6e88fd654d82517a89929ce78, type: 3}
       name: Level 3
       loadMode: 1
+  - <ID>k__BackingField: {fileID: 11400000, guid: f043a33db8e7cbf48bbba9c39c7c71c6, type: 2}
+    <Container>k__BackingField:
+      scene: {fileID: 102900000, guid: f65fa89d0522dcd4aab0be9646df06fb, type: 3}
+      name: Victory
+      loadMode: 1
+  - <ID>k__BackingField: {fileID: 11400000, guid: c738a610675a4964e9d5c539671078a8, type: 2}
+    <Container>k__BackingField:
+      scene: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
+      name: Lobby
+      loadMode: 1
   hostChannel: {fileID: 11400000, guid: 1b228f79a1192844d8b162b48779d9c0, type: 2}
   joinChannel: {fileID: 11400000, guid: 44901deee41627549860237c9dd07ec3, type: 2}
   disconnectChannel: {fileID: 11400000, guid: 1e704c85bc318a54ea24e4a1f61f765a, type: 2}
@@ -216,21 +226,7 @@ MonoBehaviour:
         m_CallState: 2
   onJoin:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: d16797dadec11c64ba3a0936d2829628, type: 2}
-        m_TargetAssemblyTypeName: Events.Runtime.Channels.ChannelSo`1[[EventChannels.Runtime.Additions.Ids.Id,
-          VarelaAloisio.Jumpers.Events.Runtime
-        m_MethodName: RaiseEvent
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 7201dbde66f3c994184eb600056b771d, type: 2}
-          m_ObjectArgumentAssemblyTypeName: EventChannels.Runtime.Additions.Ids.Id,
-            VarelaAloisio.Jumpers.Events.Runtime
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onDisconnect:
     m_PersistentCalls:
       m_Calls:

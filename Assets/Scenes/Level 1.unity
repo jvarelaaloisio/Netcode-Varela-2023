@@ -17447,6 +17447,37 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &352366966
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 352366967}
+  m_Layer: 0
+  m_Name: P3SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 2dc25866b6af6c443850b1a136c28487, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &352366967
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352366966}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.947876, y: 0.7730228, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 524396212}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &414815466
 GameObject:
   m_ObjectHideFlags: 0
@@ -17563,6 +17594,8 @@ Transform:
   m_Children:
   - {fileID: 2010057444}
   - {fileID: 1020375746}
+  - {fileID: 352366967}
+  - {fileID: 1501332109}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &524396214
@@ -17586,12 +17619,16 @@ MonoBehaviour:
   playerSpawnPoints:
   - {fileID: 2010057444}
   - {fileID: 1020375746}
+  - {fileID: 352366967}
+  - {fileID: 1501332109}
   playerSetups:
   - {fileID: 11400000, guid: 930a30558c67fac4286f2f7500523643, type: 2}
   - {fileID: 11400000, guid: 80a8df5850680c448aeb80dc144d1b2a, type: 2}
   - {fileID: 11400000, guid: 554088a1eb1d84140a1d98972ec7d223, type: 2}
   - {fileID: 11400000, guid: c51b3b6ce3fe983458c1e6bb565c6c2e, type: 2}
   cameraModel: {fileID: 11400000, guid: 691164281b2ddc441857f312e0b7db86, type: 2}
+  menuId: {fileID: 11400000, guid: 7201dbde66f3c994184eb600056b771d, type: 2}
+  changeMenuChannel: {fileID: 11400000, guid: d16797dadec11c64ba3a0936d2829628, type: 2}
   spawnBatchSize: 10
 --- !u!1 &571837572
 GameObject:
@@ -51856,6 +51893,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1501332108
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1501332109}
+  m_Layer: 0
+  m_Name: P4SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 15b379e926b699c4da390f1a77afe308, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1501332109
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501332108}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.947876, y: 0.7730228, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 524396212}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1620640098
 GameObject:
   m_ObjectHideFlags: 0
